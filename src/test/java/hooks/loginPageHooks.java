@@ -1,2 +1,24 @@
-package hooks;public class loginPageHooks {
+package hooks;
+
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import webDriverFactory.driverFactory;
+
+import static webDriverFactory.driverFactory.*;
+
+
+public class loginPageHooks {
+
+
+    @Before
+    public void setUp() {
+        driverFactory.launchBrowser();
+    }
+
+    @After
+    public void tearDown() {
+        driverFactory.closeBrowser();
+    }
+
+
 }
