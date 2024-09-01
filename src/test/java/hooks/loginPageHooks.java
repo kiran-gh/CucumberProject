@@ -4,8 +4,6 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import webDriverFactory.driverFactory;
 
-import static webDriverFactory.driverFactory.*;
-
 
 public class loginPageHooks {
 
