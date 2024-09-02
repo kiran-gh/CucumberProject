@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+import static webDriverFactory.driverFactory.driver;
+
 public class LoginPage {
     private final WebDriver driver;
     //    By locators
@@ -53,5 +55,14 @@ public class LoginPage {
     public String lpInvalidError() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(lpErrorTextEle));
         return driver.findElement(lpErrorTextEle).getText();
+    }
+
+//  Successful Login method
+    public void successfulLogin(String username, String password){
+        driver.get("https://rahulnxttrendz.ccbp.tech/login");
+        driver.findElement(lpUserNameInputEle).sendKeys(username);
+        driver.findElement(lpPasswordInputEle).sendKeys(password);
+        driver.findElement(lpLoginButtonEle).click();
+        wait.until(ExpectedConditions.urlToBe("https://rahulnxttrendz.ccbp.tech/"));
     }
 }

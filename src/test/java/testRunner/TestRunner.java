@@ -6,11 +6,12 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(
         features = {"src/main/java/features"},
         glue = {"stepDefinitions", "hooks"},
+//        tags = "@products",
         plugin = {"pretty",
                 "json:target/MyReports/report.json",
                 "json:target/MyReports/report.xml"},
         publish = true,
         monochrome = true
 )
-public class testRunner extends AbstractTestNGCucumberTests {
+public class TestRunner extends AbstractTestNGCucumberTests {
 }

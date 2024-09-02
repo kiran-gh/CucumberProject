@@ -19,6 +19,10 @@ public class writeProperties {
         properties.setProperty("invalidPasswordError", "*username and password didn't match");
         properties.setProperty("emptyCredentialsError", "*Username or password is invalid");
         properties.setProperty("Invalid credentials", "*invalid username");
+        properties.setProperty("homePageUrl", "https://rahulnxttrendz.ccbp.tech/");
+        properties.setProperty("productsPageUrl","https://rahulnxttrendz.ccbp.tech/products");
+        properties.setProperty("cartPageUrl","https://rahulnxttrendz.ccbp.tech/cart");
+
 
 
         String filepath = System.getProperty("user.dir") + "\\example.properties";
