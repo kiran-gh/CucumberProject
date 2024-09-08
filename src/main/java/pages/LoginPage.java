@@ -81,6 +81,10 @@ public class LoginPage {
         wait = new WebDriverWait(driver, Duration.ofSeconds(35));
         return driver.findElement(lpErrorTextEle).isDisplayed();
     }
+    public String errorMessage() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(lpErrorTextEle));
+        return driver.findElement(lpErrorTextEle).getText();
+    }
 
     // successfulLogin method is used to enter valid username and valid password inside username input field and password input field
     public void successfulLogin(){

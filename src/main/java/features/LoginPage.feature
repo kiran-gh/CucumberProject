@@ -8,32 +8,20 @@ Feature: Login page feature
   Scenario: Login page title
     Then user gets the title of the login page
 
-  Scenario: Login with correct credentials
-    When user enters username
-    And user enters password
+  Scenario: User enters valid credentials in login page
+    When user enters "<userName>" in username input filed and "<password>" in password input field
+    | userName  | password |
+    | rahul | rahul@2021 |
     And user clicks on Login button
     Then user navigates to home page
 
-  Scenario: Login with in-valid username
-    When user enters invalid username
-    And user enters password
+  Scenario Outline: User enters invalid credentials in login page
+    When user enter "<userName>" and "<password>"
     And user clicks on Login button
     Then error message should be displayed
-
-  Scenario: Login with in-valid password
-    When user enters username
-    When user enters invalid password
-    And user clicks on Login button
-    Then error message should be displayed
-
-  Scenario: Login with invalid credentials
-    When user enters invalid username
-    When user enters invalid password
-    And user clicks on Login button
-    Then error message should be displayed
-
-  Scenario: Login with empty credentials
-    When user enters empty username
-    When user enters empty password
-    And user clicks on Login button
-    Then error message should be displayed
+    Examples:
+    | userName | password |
+    | rahu  | rahul@2021 |
+    | rahul | rahul@2022 |
+    | rahu  | rahul@2022 |
+    |       |            |
