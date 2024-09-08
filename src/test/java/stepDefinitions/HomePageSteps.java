@@ -1,8 +1,9 @@
 package stepDefinitions;
 
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import pages.HomePage;
 import pages.LoginPage;
@@ -14,27 +15,22 @@ import java.util.Properties;
 import static webDriverFactory.driverFactory.driver;
 
 public class HomePageSteps {
-    LoginPage loginPage = new LoginPage(driver);
-    HomePage homePage = new HomePage(driver);
+    HomePage homePage;
+    LoginPage loginPage;
+    FileInputStream fis = new FileInputStream("data.properties");
+    Properties prop = new Properties();
 
-    Properties properties = new Properties();
-    String filePath = System.getProperty("user.dir") + "\\example.properties";
-    FileInputStream file = new FileInputStream(filePath);
-    //    stringCasting is the method which is used frequently in this class
-    public String stringCasting(String valueOfTheProperty) {
-        return properties.getProperty(valueOfTheProperty);
-    }
-//    Constructor for homepage
+
     public HomePageSteps() throws IOException {
-        properties.load(file);
-//        file.close();
-        loginPage.successfulLogin(stringCasting("username"),stringCasting("password"));
+        prop.load(fis);
+        loginPage = new LoginPage(driver);
+        homePage = new HomePage(driver);
+        loginPage.successfulLogin();
     }
-
 
     @When("user is on home page.")
     public void user_is_on_home_page() {
-       Assert.assertTrue(homePage.hpUrl().contains(stringCasting("homePageUrl")));
+        Assert.assertTrue(driver.getCurrentUrl().contains(homePage.hpUrl()));
     }
 
     @Then("home page heading should be displayed.")
@@ -52,34 +48,33 @@ public class HomePageSteps {
         Assert.assertTrue(homePage.hpShopNowButton());
     }
 
-    @And("user clicks on products button in the navbar.")
-    public void userClicksOnProductsButtonInTheNavbar() {
+    @When("user clicks on products button in the navbar.")
+    public void user_clicks_on_products_button_in_the_navbar() {
         homePage.hpProductsButton();
     }
 
     @Then("user should be able to navigate to products page.")
-    public void userShouldBeAbleToNavigateToProductsPage() {
-        Assert.assertTrue(homePage.hpProductsButton().contains((String) stringCasting("productsPageUrl")));
+    public void user_should_be_able_to_navigate_to_products_page() {
+        Assert.assertTrue(driver.getCurrentUrl().contains(homePage.hpProductsButton()));
     }
 
-    @And("user clicks on cart button in the navbar.")
-    public void userClicksOnCartButtonInTheNavbar() {
+    @When("user clicks on cart button in the navbar.")
+    public void user_clicks_on_cart_button_in_the_navbar() {
         homePage.hpCartButton();
     }
 
     @Then("user should be able to navigate to cart page.")
-    public void userShouldBeAbleToNavigateToCartPage() {
-        Assert.assertTrue(homePage.hpCartButton().contains((String) stringCasting("cartPageUrl")));
+    public void user_should_be_able_to_navigate_to_cart_page() {
+        Assert.assertTrue(driver.getCurrentUrl().contains(homePage.hpCartButton()));
     }
 
-
     @When("user clicks on logout button.")
-    public void userClicksOnLogoutButton() throws InterruptedException {
+    public void user_clicks_on_logout_button() {
         homePage.hpLogoutButton();
     }
 
-    @Then("user should be able to navigate to home page.")
-    public void userShouldBeAbleToNavigateToHomePage() {
-        Assert.assertTrue(driver.getCurrentUrl().contains(stringCasting("url")));
+    @Then("user should be able to navigate to login page.")
+    public void user_should_be_able_to_navigate_to_login_page() {
+        Assert.assertTrue(driver.getCurrentUrl().contains(prop.getProperty("loginPageUrl")));
     }
 }

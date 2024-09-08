@@ -5,139 +5,124 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
+import java.util.Properties;
+
+import static webDriverFactory.driverFactory.clickOnElement;
+import static webDriverFactory.driverFactory.inputData;
 
 public class ProductsPage {
-    private static WebDriver driver = null;
+    private static WebDriver driver;
     WebDriverWait wait;
-    HomePage homePage;
-    private int count = 0;
+    FileInputStream fis = new FileInputStream("data.properties");
+    Properties prop = new Properties();
 
-    //    Constructor for Products page
-    public ProductsPage(WebDriver driver) {
+    //**********    PRODUCT PAGE LOCATORS STARTS HERE    **********
+    //    ********** THE FOLLOWING ARE THE EXCLUSIVE PRIME DEALS SECTION ELEMENT LOCATORS **********
+    By ppEPDHeadingEle = By.className("primedeals-list-heading");
+    By ppEPDTotalListOfProducts = By.xpath("(//div[@class=\"product-sections\"]//ul)[1]//li");
+
+
+    //    ********** THE FOLLOWING ARE THE CATEGORY SECTION ELEMENT LOCATORS **********
+    By categoryHeadingEle = By.className("category-heading");
+    By ppTotalListOfCategoriesEle = By.className("category-item");
+    By categoryClearButtonEle = By.className("clear-filters-btn");
+    By searchButtonEle = By.className("search-input");
+    By searchIconEle = By.className("search-icon");
+
+
+
+    //    ********** THE FOLLOWING ARE THE RATING SECTION ELEMENT LOCATORS **********
+    By ratingHeadingEle = By.className("rating-heading");
+    By ppTotalListOfRatings = By.className("rating-item");
+    By ppFourStarAndAboveEle = By.xpath("//img[@alt=\"rating 4\"]");
+    By ppProductsRating = By.xpath("(//ul[@class=\"products-list\"])[2]//p[@class=\"rating\"]");
+
+
+    //    ********** THE FOLLOWING ARE THE ALL PRODUCTS SECTION ELEMENT LOCATORS **********
+    By apHeadingEle = By.className("products-list-heading");
+    By ppAPSectionTotalListOfProductsEle = By.xpath("(//div[@class=\"product-sections\"]//ul)[4]//li");
+
+    By titleOfProduct = By.xpath("//h1[@class=\"title\"]");
+    //    ********** THE FOLLOWING IS THE CONSTRUCTOR FOR PRODUCTS PAGE **********
+    public ProductsPage(WebDriver driver) throws IOException {
+        prop.load(fis);
         this.driver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(35));
-        homePage = new HomePage(driver);
-        homePage.navigateToProductsPage();
+    }
+    //**********    PRODUCTS PAGE METHODS / FUNCTIONS STARTS HERE    **********
+    public String ppTitle(){
+        wait.until(ExpectedConditions.urlToBe(prop.getProperty("productsPageUrl")));
+        return driver.getTitle();
     }
 
-    //    Elements under Exclusive Prime deals section.
-    By ppEPDHeadingEle = By.className("primedeals-list-heading");
-    By ppEPDProductsListEle = By.xpath("(//ul[@class=\"products-list\"])[1]//li");
-    By ppEPDProductsImagesEle = By.xpath("(//ul[@class=\"products-list\"])[1]//img[@alt=\"product\"]");
-    By ppEPDProductTitleEle = By.xpath("(//ul[@class=\"products-list\"])[1]//h1[@class=\"title\"]");
-    By ppEPDProductBrandEle = By.xpath("(//ul[@class=\"products-list\"])[1]//p[@class=\"brand\"]");
-    By ppEPDProductPriceEle = By.xpath("(//ul[@class=\"products-list\"])[1]//p[@class=\"price\"]");
-
-//    Elements under Category section.
-
-    //    Elements under All products section (ap - All Products)
-    By allProductsHeadingEle = By.className("products-list-heading");
-    By apTotalProductsListEle = By.xpath("(//div[@class=\"all-products-container\"])[1]//li");
-    By apTotalProductsImagesEle = By.xpath("(//div[@class=\"all-products-container\"])[1]//img[@alt=\"product\"]");
-    By apTotalProductsTitlesEle = By.xpath("(//div[@class=\"all-products-container\"])[1]//h1[@class=\"title\"]");
-    By apTotalProductsBrandsEle = By.xpath("(//div[@class=\"all-products-container\"])[1]//p[@class=\"brand\"]");
-    By apTotalProductsPriceEle = By.xpath("(//div[@class=\"all-products-container\"])[1]//p[@class=\"price\"]");
-
-
-    //    Actions / Methods that are related to All products sections.
-    //    This is the common methods that is used to check the status of the product and the count of the product
-    public int ppEPDProductsStatusAndCount(By locator) {
-        List<WebElement> elements = driver.findElements(locator);
-        for (WebElement element : elements) {
-            Assert.assertTrue(driver.findElement(locator).isDisplayed());
-            count = count + 1;
-        }
-        return count;
-    }
-
-    //    Checks the main heading element under all products section
-    public boolean allProductsHeading() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(allProductsHeadingEle));
-        return driver.findElement(allProductsHeadingEle).isDisplayed();
-    }
-
-    //    Total list of items under All products section
-    public int apTotalProductsList() {
-        List<WebElement> products = driver.findElements(apTotalProductsListEle);
-        return products.size();
-    }
-
-    //    Total no of product images under all products section
-    public int apTotalProductImages() {
-        ppEPDProductsStatusAndCount(apTotalProductsImagesEle);
-        return count;
-    }
-
-    //    Total no of product titles under all products section
-    public int apTotalProductTitles() {
-        ppEPDProductsStatusAndCount(apTotalProductsTitlesEle);
-        return count;
-    }
-
-    //    Total no of brands under all products section
-    public int apTotalProductBrands() {
-        ppEPDProductsStatusAndCount(apTotalProductsBrandsEle);
-        return count;
-    }
-
-    //    Total no of prices under all products section
-    public int apTotalProductPrice() {
-        ppEPDProductsStatusAndCount(apTotalProductsPriceEle);
-        return count;
-    }
-
-
-    //    Actions / Methods that are related to exclusive prime deals.
-    //    Checks the products page url
-    public String ppProductsPageUrl() {
-        wait.until(ExpectedConditions.urlToBe("https://rahulnxttrendz.ccbp.tech/products"));
-        return driver.getCurrentUrl();
-    }
-
-    //    Checks Exclusive prime deals heading element
-    public boolean ppEPDHeading() {
+    public boolean ppEPDHeading(){
         wait.until(ExpectedConditions.visibilityOfElementLocated(ppEPDHeadingEle));
         return driver.findElement(ppEPDHeadingEle).isDisplayed();
     }
-
-    //    Counts total no of products under Exclusive prime deals section.
-    public int ppEPDTotalProductsList() {
-        List<WebElement> EPDTotalProducts = driver.findElements(ppEPDProductsListEle);
-        return EPDTotalProducts.size();
+    public boolean ppEPDTotalListOfItemsDisplayStatus(){
+        List<WebElement> epdTotalItems = driver.findElements(ppEPDTotalListOfProducts);
+        return epdTotalItems.stream().allMatch(WebElement::isDisplayed);
     }
 
-    //    Checks if each product under exclusive prime deals is displaying or not and returns the count
-    public int ppEPDTotalProductsStatus() {
-        ppEPDProductsStatusAndCount(ppEPDProductsListEle);
-        return count;
+
+    public void inputDataInToSearchButton(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(categoryClearButtonEle));
+        clickOnElement(categoryClearButtonEle);
+        inputData(searchButtonEle, prop.getProperty("searchForAProduct"));
+        clickOnElement(searchIconEle);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ppAPSectionTotalListOfProductsEle));
+    }
+    public boolean categoryHeading(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(categoryHeadingEle));
+        return driver.findElement(categoryHeadingEle).isDisplayed();
     }
 
-    //    Checks if each product image under exclusive prime deals is displaying or not and returns the count
-    public int ppEPDProductsImagesStatus() {
-        ppEPDProductsStatusAndCount(ppEPDProductsImagesEle);
-        return count;
+    public boolean checkForASpecificProductStatus(){
+        inputDataInToSearchButton();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ppAPSectionTotalListOfProductsEle));
+        return driver.findElements(titleOfProduct).stream()
+                .anyMatch(title -> title.getText().equals(prop.getProperty("searchForAProduct")));
+    }
+    public boolean ppTotalListOfCategoriesDisplayStatus(){
+        List<WebElement> categoriesCount = driver.findElements(ppTotalListOfCategoriesEle);
+        return categoriesCount.stream().allMatch(WebElement::isDisplayed);
+    }
+    public boolean ratingsHeading(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ratingHeadingEle));
+        return driver.findElement(ratingHeadingEle).isDisplayed();
+    }
+    public boolean ppTotalListOfRatingsDisplayStats(){
+        List<WebElement> ratingsCount = driver.findElements(ppTotalListOfRatings);
+        return ratingsCount.stream().allMatch(WebElement::isDisplayed);
+    }
+    public void ppFourStarAndAbove(){
+        wait.until(ExpectedConditions.urlToBe(prop.getProperty("productsPageUrl")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(categoryClearButtonEle));
+        clickOnElement(categoryClearButtonEle);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ppFourStarAndAboveEle));
+        clickOnElement(ppFourStarAndAboveEle);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ppTotalListOfCategoriesEle));
     }
 
-    //    Checks if each product title under exclusive prime deals is displaying or not and returns the count
-    public int ppEPDProductsTitlesStatus() {
-        ppEPDProductsStatusAndCount(ppEPDProductTitleEle);
-        return count;
+    public boolean ppProductsWithSelectedRatingStatus() {
+        ppFourStarAndAbove();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ppAPSectionTotalListOfProductsEle));
+        return driver.findElements(ppProductsRating).stream()
+                .anyMatch(element -> Float.parseFloat(element.getText()) >= 4.0);
     }
 
-    //    Checks if each product brand under exclusive prime deals is displaying or not and returns the count
-    public int ppEPDProductsBrandsStatus() {
-        ppEPDProductsStatusAndCount(ppEPDProductBrandEle);
-        return count;
+    public boolean apHeading(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(apHeadingEle));
+        return driver.findElement(apHeadingEle).isDisplayed();
     }
-
-    //    Checks if each product price under exclusive prime deals is displaying or not and returns the count
-    public int ppEPDProductsPriceStatus() {
-        ppEPDProductsStatusAndCount(ppEPDProductPriceEle);
-        return count;
+    public boolean apTotalListOfProductsDisplayStatus() {
+        List<WebElement> apSectionTotalProducts = driver.findElements(ppAPSectionTotalListOfProductsEle);
+        return apSectionTotalProducts.stream().allMatch(WebElement::isDisplayed);
     }
-
+    //**********    PRODUCTS PAGE METHODS / FUNCTIONS ENDS HERE    **********
 }

@@ -1,0 +1,237 @@
+  //    ********** THE FOLLOWING ARE THE COMMON METHODS / FUNCTIONS USED IN THIS CLASS **********
+    public void ppProductsStatusAndCount(By locator) {
+        List<WebElement> elements = driver.findElements(locator);
+        for (WebElement element : elements) {
+            Assert.assertTrue(driver.findElement(locator).isDisplayed());
+            count = count + 1;
+        }
+    }
+    public int ppEPDProductsImagesStatus() {
+        ppProductsStatusAndCount(ppProductImagesEle);
+        return count;
+    }
+    public int ppEPDProductsTitlesStatus() {
+        ppProductsStatusAndCount(ppProductTitlesEle);
+        return count;
+    }
+    public int ppEPDProductsBrandsStatus() {
+        ppProductsStatusAndCount(ppProductBrandsEle);
+        return count;
+    }
+    public int ppEPDProductsPriceStatus() {
+        ppProductsStatusAndCount(ppProductPricesEle);
+        return count;
+    }
+    //    Category section total items count
+    public void ppCategoryTotalItemsCount(By categoryElementLocator) {
+        count = 0;
+        driver.findElement(categoryElementLocator).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ppSelectedCategoryItemsListEle));
+        ppProductsStatusAndCount(ppSelectedCategoryItemsListEle);
+    }
+    //    This method counts the total no of product images, product titles, product brands, product prices for each product
+    public void ppTotalProductsInEachCategory(By locator) {
+        count = 0;
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ppSelectedCategoryItemsListEle));
+        ppProductsStatusAndCount(locator);
+    }
+    //    THE FOLLOWING IS THE CODE TO CHECK THE PRODUCTS PAGE URL
+    public String ppProductsPageUrl() {
+        wait.until(ExpectedConditions.urlToBe("https://rahulnxttrendz.ccbp.tech/products"));
+        return driver.getCurrentUrl();
+    }
+
+    //    ********** THE FOLLOWING ARE THE EXCLUSIVE PRIME DEALS SECTION METHODS / FUNCTIONS **********
+    //    Checks Exclusive prime deals heading element
+    public boolean ppEPDHeading() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ppEPDHeadingEle));
+        return driver.findElement(ppEPDHeadingEle).isDisplayed();
+    }
+    //    Counts total no of products under Exclusive prime deals section.
+    public int ppEPDTotalProductsList() {
+        List<WebElement> EPDTotalProducts = driver.findElements(ppEPDProductsListEle);
+        return EPDTotalProducts.size();
+    }
+    //    Checks if each product under exclusive prime deals is displaying or not and returns the count
+    public int ppEPDTotalProductsStatus() {
+        ppProductsStatusAndCount(ppEPDProductsListEle);
+        return count;
+    }
+//    ********** THE FOLLOWING ARE THE CATEGORY SECTION METHODS / FUNCTIONS **********
+
+    //    ********** CODE BELONGS TO CLOTHES CATEGORY SECTION STARTS HERE **********
+    //    Clothes category total items count.
+    public void ppClothesCategoryCheck(){
+        driver.findElement(ppCategoryClothingEle).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ppEPDProductsListEle));
+        ppProductsStatusAndCount(ppEPDProductsListEle);
+    }
+    public int ppClothingCategoryTotalItemsCount() {
+        ppCategoryTotalItemsCount(ppCategoryClothingEle);
+        return count;
+    }
+    //    Total product images under clothes category
+    public int ppTotalProductImagesUnderClothes() {
+        ppTotalProductsInEachCategory(apTotalProductsImagesEle);
+        return count;
+    }
+    //    Total product titles under clothes category
+    public int ppTotalProductTitlesUnderClothes() {
+        ppTotalProductsInEachCategory(apTotalProductsTitlesEle);
+        return count;
+    }
+    //    Total product brands under clothes category
+    public int ppTotalProductBrandsUnderClothes() {
+        ppTotalProductsInEachCategory(apTotalProductsBrandsEle);
+        return count;
+    }
+    //    Total product prices under clothes category
+    public int ppTotalProductPricesUnderClothes() {
+        ppTotalProductsInEachCategory(apTotalProductsPriceEle);
+        return count;
+    }
+
+    //    ********** CODE BELONGS TO CLOTHES CATEGORY SECTION STARTS HERE **********
+    //    ********** CODE BELONGS TO ELECTRONICS CATEGORY SECTION STARTS HERE **********
+    //    Electronics category total items count.
+    public int ppElectronicsCategoryTotalItemsCount() {
+        ppCategoryTotalItemsCount(ppCategoryElectronicsEle);
+        return count;
+    }
+    //    Total product images under Electronics category
+    public int ppTotalProductImagesUnderElectronics() {
+        ppTotalProductsInEachCategory(apTotalProductsImagesEle);
+        return count;
+    }
+    //    Total product titles under Electronics category
+    public int ppTotalProductTitlesUnderElectronics() {
+        ppTotalProductsInEachCategory(apTotalProductsTitlesEle);
+        return count;
+    }
+    //    Total product brands under Electronics category
+    public int ppTotalProductBrandsUnderElectronics() {
+        ppTotalProductsInEachCategory(apTotalProductsBrandsEle);
+        return count;
+    }
+    //    Total product prices under Electronics category
+    public int ppTotalProductPricesUnderElectronics() {
+        ppTotalProductsInEachCategory(apTotalProductsPriceEle);
+        return count;
+    }
+
+    //    ********** CODE BELONGS TO ELECTRONICS SECTION ENDS HERE **********
+    //    ********** CODE BELONGS TO APPLIANCES CATEGORY SECTION STARTS HERE **********
+    //    Appliances category total items count.
+    public int ppAppliancesCategoryTotalItemsCount() {
+        ppCategoryTotalItemsCount(ppCategoryAppliancesEle);
+        return count;
+    }
+    //    Total product images under Appliances category
+    public int ppTotalProductImagesUnderAppliances() {
+        ppTotalProductsInEachCategory(apTotalProductsImagesEle);
+        return count;
+    }
+    //    Total product titles under Appliances category
+    public int ppTotalProductTitlesUnderAppliances() {
+        ppTotalProductsInEachCategory(apTotalProductsTitlesEle);
+        return count;
+    }
+    //    Total product brands under Appliances category
+    public int ppTotalProductBrandsUnderAppliances() {
+        ppTotalProductsInEachCategory(apTotalProductsBrandsEle);
+        return count;
+    }
+    //    Total product prices under Appliances category
+    public int ppTotalProductPricesUnderAppliances() {
+        ppTotalProductsInEachCategory(apTotalProductsPriceEle);
+        return count;
+    }
+
+    //    ********** CODE BELONGS TO APPLIANCES SECTION ENDS HERE **********
+    //    ********** CODE BELONGS TO GROCERY CATEGORY SECTION STARTS HERE **********
+    //    Grocery category total items count.
+    public int ppGroceryCategoryTotalItemsCount() {
+        ppCategoryTotalItemsCount(ppCategoryGroceryEle);
+        return count;
+    }
+    //    Total product images under Grocery category
+    public int ppTotalProductImagesUnderGrocery() {
+        ppTotalProductsInEachCategory(apTotalProductsImagesEle);
+        return count;
+    }
+    //    Total product titles under Grocery category
+    public int ppTotalProductTitlesUnderGrocery() {
+        ppTotalProductsInEachCategory(apTotalProductsTitlesEle);
+        return count;
+    }
+    //    Total product brands under Grocery category
+    public int ppTotalProductBrandsUnderGrocery() {
+        ppTotalProductsInEachCategory(apTotalProductsBrandsEle);
+        return count;
+    }
+    //    Total product prices under Grocery category
+    public int ppTotalProductPricesUnderGrocery() {
+        ppTotalProductsInEachCategory(apTotalProductsPriceEle);
+        return count;
+    }
+
+    //    ********** CODE BELONGS TO GROCERY SECTION ENDS HERE **********
+    //    ********** CODE BELONGS TO TOYS CATEGORY SECTION STARTS HERE **********
+    //    Toys category total items count.
+    public int ppToysCategoryTotalItemsCount() {
+        ppCategoryTotalItemsCount(ppCategoryToysEle);
+        return count;
+    }
+    //    Total product images under Toys category
+    public int ppTotalProductImagesUnderToys() {
+        ppTotalProductsInEachCategory(apTotalProductsImagesEle);
+        return count;
+    }
+    //    Total product titles under Toys category
+    public int ppTotalProductTitlesUnderToys() {
+        ppTotalProductsInEachCategory(apTotalProductsTitlesEle);
+        return count;
+    }
+    //    Total product brands under Toys category
+    public int ppTotalProductBrandsUnderToys() {
+        ppTotalProductsInEachCategory(apTotalProductsBrandsEle);
+        return count;
+    }
+    //    Total product prices under Toys category
+    public int ppTotalProductPricesUnderToys() {
+        ppTotalProductsInEachCategory(apTotalProductsPriceEle);
+        return count;
+    }
+    //    ********** CODE BELONGS TO GROCERY SECTION ENDS HERE **********
+
+    //    ********** THE FOLLOWING ARE THE ALL PRODUCTS SECTION METHODS / FUNCTIONS **********
+    //    Checks the main heading element under all products section
+    public boolean allProductsHeading() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(allProductsHeadingEle));
+        return driver.findElement(allProductsHeadingEle).isDisplayed();
+    }
+    //    Total list of items under All products section
+    public int apTotalProductsList() {
+        List<WebElement> products = driver.findElements(apTotalProductsListEle);
+        return products.size();
+    }
+    //    Total no of product images under all products section
+    public int apTotalProductImages() {
+        ppProductsStatusAndCount(apTotalProductsImagesEle);
+        return count;
+    }
+    //    Total no of product titles under all products section
+    public int apTotalProductTitles() {
+        ppProductsStatusAndCount(apTotalProductsTitlesEle);
+        return count;
+    }
+    //    Total no of brands under all products section
+    public int apTotalProductBrands() {
+        ppProductsStatusAndCount(apTotalProductsBrandsEle);
+        return count;
+    }
+    //    Total no of prices under all products section
+    public int apTotalProductPrice() {
+        ppProductsStatusAndCount(apTotalProductsPriceEle);
+        return count;
+    }

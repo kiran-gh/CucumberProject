@@ -4,79 +4,92 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
+import pages.HomePage;
 import pages.ProductsPage;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 import static webDriverFactory.driverFactory.driver;
 
 public class ProductsPageSteps {
+    HomePage homePage;
+    ProductsPage productsPage;
+    FileInputStream fis = new FileInputStream("data.properties");
+    Properties prop = new Properties();
 
-    ProductsPage productsPage = new ProductsPage(driver);
-
-
-    @When("user is on products page.")
-    public void user_is_on_products_page() {
-        Assert.assertEquals(driver.getCurrentUrl(),productsPage.ppProductsPageUrl());
+    public ProductsPageSteps() throws IOException {
+        prop.load(fis);
+        homePage = new HomePage(driver);
+        homePage.navigateToProductsPage();
+        productsPage = new ProductsPage(driver);
     }
 
-    @Then("user exclusive prime deals heading should be displayed.")
-    public void user_exclusive_prime_deals_heading_should_be_displayed() {
+
+    @When("user is on products page")
+    public void user_is_on_products_page() {
+        Assert.assertTrue(driver.getTitle().contains(productsPage.ppTitle()));
+    }
+
+
+    @Then("user exclusive prime deals heading should be displayed")
+    public void userExclusivePrimeDealsHeadingShouldBeDisplayed() {
         Assert.assertTrue(productsPage.ppEPDHeading());
     }
 
-
-    @And("all the list of products under prime deals should be displayed.")
-    public void allTheListOfProductsUnderPrimeDealsShouldBeDisplayed() {
-        Assert.assertEquals(productsPage.ppEPDTotalProductsList(),productsPage.ppEPDTotalProductsStatus());
-    }
-
-    @Then("all the EPD product images should be displayed.")
-    public void allTheEPDProductImagesShouldBeDisplayed() {
-        Assert.assertEquals(productsPage.ppEPDTotalProductsList(),productsPage.ppEPDProductsImagesStatus());
-    }
-
-    @Then("all the EPD product titles should be displayed.")
-    public void allTheEPDProductTitlesShouldBeDisplayed() {
-        Assert.assertEquals(productsPage.ppEPDTotalProductsList(),productsPage.ppEPDProductsTitlesStatus());
-    }
-
-    @Then("all the EPD product brands should be displayed.")
-    public void allTheEPDProductBrandsShouldBeDisplayed() {
-        Assert.assertEquals(productsPage.ppEPDTotalProductsList(),productsPage.ppEPDProductsBrandsStatus());
-    }
-
-    @Then("all the EPD product prices should be displayed.")
-    public void allTheEPDProductPricesShouldBeDisplayed() {
-        Assert.assertEquals(productsPage.ppEPDTotalProductsList(),productsPage.ppEPDProductsPriceStatus());
-    }
-
-    @Then("all products main heading element should be displayed.")
+    @Then("all products main heading element should be displayed")
     public void allProductsMainHeadingElementShouldBeDisplayed() {
-        Assert.assertTrue(productsPage.allProductsHeading());
+        Assert.assertTrue(productsPage.apHeading());
     }
 
-    @And("all the products under all products section should be displayed.")
-    public void allTheProductsUnderAllProductsSectionShouldBeDisplayed() {
-        Assert.assertEquals(productsPage.apTotalProductsList(),productsPage.apTotalProductTitles());
+    @Then("category heading should be displayed")
+    public void categoryHeadingShouldBeDisplayed() {
+        Assert.assertTrue(productsPage.categoryHeading());
     }
 
-
-    @Then("all product images should be displayed under all products section.")
-    public void allProductImagesShouldBeDisplayedUnderAllProductsSection() {
-        Assert.assertEquals(productsPage.apTotalProductsList(),productsPage.apTotalProductImages());
+    @And("ratings heading should be displayed")
+    public void ratingsHeadingShouldBeDisplayed() {
+        Assert.assertTrue(productsPage.ratingsHeading());
     }
 
-    @Then("all product titles should be displayed under all products section.")
-    public void allProductTitlesShouldBeDisplayedUnderAllProductsSection() {
-        Assert.assertEquals(productsPage.apTotalProductsList(),productsPage.apTotalProductTitles());
+    @And("all products under exclusive prime deals should be displayed.")
+    public void allProductsUnderExclusivePrimeDealsShouldBeDisplayed() {
+        Assert.assertTrue(productsPage.ppEPDTotalListOfItemsDisplayStatus());
     }
 
-    @Then("all product brands should be displayed under all products section.")
-    public void allProductBrandsShouldBeDisplayedUnderAllProductsSection() {
-        Assert.assertEquals(productsPage.apTotalProductsList(),productsPage.apTotalProductBrands());
+    @And("all categories under category section should be displayed.")
+    public void allCategoriesUnderCategorySectionShouldBeDisplayed() {
+        Assert.assertTrue(productsPage.ppTotalListOfCategoriesDisplayStatus());
     }
 
-    @Then("all product prices should be displayed under all products section.")
-    public void allProductPricesShouldBeDisplayedUnderAllProductsSection() {
-        Assert.assertEquals(productsPage.apTotalProductsList(),productsPage.apTotalProductPrice());
+    @And("all ratings under ratings section should be displayed")
+    public void allRatingsUnderRatingsSectionShouldBeDisplayed() {
+        Assert.assertTrue(productsPage.ppTotalListOfRatingsDisplayStats());
+    }
+
+    @And("all products under All products section should be displayed")
+    public void allProductsUnderAllProductsSectionShouldBeDisplayed() {
+        Assert.assertTrue(productsPage.apTotalListOfProductsDisplayStatus());
+    }
+
+    @And("search for any specific product with title")
+    public void searchForAnySpecificProductWithTitle() {
+        productsPage.inputDataInToSearchButton();
+    }
+
+    @Then("the product with the searched title should be present in the list of items.")
+    public void theProductWithTheSearchedTitleShouldBePresentInTheListOfItems() {
+        Assert.assertTrue(productsPage.checkForASpecificProductStatus());
+    }
+
+    @And("clicks on any specific rating under category list")
+    public void clicksOnAnySpecificRatingUnderCategoryList() {
+        productsPage.ppFourStarAndAbove();
+    }
+
+    @Then("all the products with specified rating should be displayed.")
+    public void allTheProductsWithSpecifiedRatingShouldBeDisplayed() {
+        Assert.assertTrue(productsPage.ppProductsWithSelectedRatingStatus());
     }
 }

@@ -1,3 +1,4 @@
+@homepage
 Feature: Home page feature
 
   Scenario: Successful user navigated to home page.
@@ -18,4 +19,4 @@ Feature: Home page feature
 
   Scenario: Successful navigation to login page from home page.
     When user clicks on logout button.
-    Then user should be able to navigate to home page.
+    Then user should be able to navigate to login page.

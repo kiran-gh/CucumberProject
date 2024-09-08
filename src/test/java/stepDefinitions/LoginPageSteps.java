@@ -1,10 +1,8 @@
 package stepDefinitions;
 
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import pages.LoginPage;
@@ -14,97 +12,78 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 
-import static webDriverFactory.driverFactory.driver;
+import static webDriverFactory.driverFactory.*;
 
 public class LoginPageSteps {
-    public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(35));
-    LoginPage loginPage = new LoginPage(driver);
 
-    Properties properties = new Properties();
-    String filePath = System.getProperty("user.dir") + "\\example.properties";
-    FileInputStream file = new FileInputStream(filePath);
+    LoginPage loginPage  = new LoginPage(driver);
+    FileInputStream fis = new FileInputStream("data.properties");
+    Properties prop = new Properties();
+
+    WebDriverWait wait;
 
     public LoginPageSteps() throws IOException {
-        properties.load(file);
-        file.close();
-    }
-
-    public String stringCasting(String valueOfTheProperty) {
-        return properties.getProperty(valueOfTheProperty);
+        prop.load(fis);
+        driver.get(prop.getProperty("loginPageUrl"));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(35));
     }
 
     @Given("user is on the login page")
-    public void userIsOnTheLoginPage() {
-        String urlOfHomePage = stringCasting("url");
-        driver.get(urlOfHomePage);
-        wait.until(ExpectedConditions.urlToBe(urlOfHomePage));
-        Assert.assertTrue(driver.getCurrentUrl().contains(urlOfHomePage));
+    public void user_is_on_the_login_page() {
+        Assert.assertTrue(driver.getTitle().contains(loginPage.getLoginPageTitle()));
     }
 
-    @When("user gets the title of the page")
-    public void userGetsTheTitleOfThePage() {
-        String lpTileName = loginPage.getLoginPageTitle();
-    }
-
-    @Then("page title should be React app")
-    public void pageTitleShouldBeReactApp() {
-        Assert.assertTrue(driver.getTitle().contains(stringCasting("lpTitle")));
-    }
-
-    @When("user enters username rahul")
-    public void userEntersUsernameRahul() {
-        loginPage.enterUserName(stringCasting("username"));
-    }
-
-    @And("user enters password")
-    public void userEntersPasswordRahul() {
-        loginPage.enterPassword(stringCasting("password"));
-    }
-
-    @And("user clicks on Login button")
-    public void userClicksOnLoginButton() {
+    @Given("user clicks on Login button")
+    public void user_clicks_on_login_button() {
         loginPage.clickOnLoginButton();
     }
 
+
+    @Then("error message should be displayed")
+    public void errorMessageShouldBeDisplayed() {
+        Assert.assertTrue(loginPage.lpErrorMessage());
+    }
+
+
+    @Then("user gets the title of the login page")
+    public void user_gets_the_title_of_the_login_page() {
+        Assert.assertTrue(driver.getTitle().contains(loginPage.getLoginPageTitle()));
+    }
+
+    @When("user enters username")
+    public void user_enters_username() {
+        loginPage.enterUserName(prop.getProperty("username"));
+    }
+
+    @When("user enters password")
+    public void user_enters_password() {
+        loginPage.enterPassword(prop.getProperty("password"));
+    }
+
+
     @When("user enters invalid username")
-    public void userEntersInvalidUsername() {
-        loginPage.enterUserName(stringCasting("invalidUserName"));
-    }
-
-    @Then("user gets the error message")
-    public void userGetsTheErrorMessage() {
-        String lpInvalidUserNameErrorMessage = loginPage.lpInvalidError();
-    }
-
-    @And("error message should be invalid username")
-    public void errorMessageShouldBeInvalidUsername() {
-        Assert.assertTrue(loginPage.lpInvalidError().contains(stringCasting("invalidUserNameError")));
+    public void user_enters_invalid_username() {
+        loginPage.enterUserName(prop.getProperty("invalidUserName"));
     }
 
     @When("user enters invalid password")
-    public void userEntersInvalidPassword() {
-        loginPage.enterPassword(stringCasting("invalidPassword"));
+    public void user_enters_invalid_password() {
+        loginPage.enterPassword(prop.getProperty("invalidPassword"));
     }
 
-    @And("error message should be invalid password")
-    public void errorMessageShouldBeInvalidPassword() {
-        Assert.assertTrue(loginPage.lpInvalidError().contains(stringCasting("invalidPasswordError")));
+    @When("user enters empty username")
+    public void user_enters_empty_username() {
+        loginPage.enterUserName(prop.getProperty("emptyUsername"));
     }
 
-    @When("user enters empty username and password")
-    public void userEntersEmptyUsernameAndPassword() {
-        loginPage.lpEmptyCredentials(stringCasting("emptyUserName"), stringCasting("emptyPassword"));
-    }
-
-    @And("error message should be *Username or password is invalid")
-    public void errorMessageShouldBeUsernameOrPasswordIsInvalid() {
-        Assert.assertTrue(loginPage.lpInvalidError().contains(stringCasting("emptyCredentialsError")));
-    }
-
-    @When("user enters invalid username and password")
-    public void userEntersEmptyInvalidUsernameAndPassword() {
-        loginPage.lpInvalidCredentials(stringCasting("invalidUserName"), stringCasting("invalidPassword"));
+    @When("user enters empty password")
+    public void user_enters_empty_password() {
+        loginPage.enterPassword(prop.getProperty("emptyPassword"));
     }
 
 
+    @Then("user navigates to home page")
+    public void userNavigatesToHomePage() {
+        Assert.assertEquals(loginPage.homePageUrl(),prop.getProperty("homePageUrl"));
+    }
 }

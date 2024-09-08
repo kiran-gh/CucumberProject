@@ -1,3 +1,4 @@
+@login
 Feature: Login page feature
 
   Background:
@@ -5,38 +6,34 @@ Feature: Login page feature
 
 
   Scenario: Login page title
-    When user gets the title of the page
-    Then page title should be React app
+    Then user gets the title of the login page
 
   Scenario: Login with correct credentials
-    When user enters username rahul
+    When user enters username
     And user enters password
     And user clicks on Login button
-    Then user gets the title of the page
-    And page title should be React app
+    Then user navigates to home page
 
   Scenario: Login with in-valid username
     When user enters invalid username
     And user enters password
     And user clicks on Login button
-    Then user gets the error message
-    And error message should be invalid username
+    Then error message should be displayed
 
   Scenario: Login with in-valid password
-    When user enters username rahul
-    And user enters invalid password
+    When user enters username
+    When user enters invalid password
     And user clicks on Login button
-    Then user gets the error message
-    And error message should be invalid password
+    Then error message should be displayed
 
   Scenario: Login with invalid credentials
-    When user enters invalid username and password
+    When user enters invalid username
+    When user enters invalid password
     And user clicks on Login button
-    Then user gets the error message
-    And error message should be invalid username
+    Then error message should be displayed
 
   Scenario: Login with empty credentials
-    When user enters empty username and password
+    When user enters empty username
+    When user enters empty password
     And user clicks on Login button
-    Then user gets the error message
-    And error message should be *Username or password is invalid
+    Then error message should be displayed

@@ -2,46 +2,39 @@
 Feature: Products page
 
 #  Below list of scenarios are for Exclusive prime deals products section
-  Scenario: Exclusive prime deals section.
-    When user is on products page.
-    Then user exclusive prime deals heading should be displayed.
-    And all the list of products under prime deals should be displayed.
 
-  Scenario: EPD total products images check.
-    When user is on products page.
-    Then all the EPD product images should be displayed.
+  Scenario: Exclusive prime deals section check.
+    When user is on products page
+    Then user exclusive prime deals heading should be displayed
+    And all products under exclusive prime deals should be displayed.
 
-  Scenario: EPD total products titles check.
-    When user is on products page.
-    Then all the EPD product titles should be displayed.
+#  Below list of scenarios are for Category section
+  Scenario: Category section check.
+    When user is on products page
+    Then category heading should be displayed
+    And all categories under category section should be displayed.
 
-  Scenario: EPD total products brands check.
-    When user is on products page.
-    Then all the EPD product brands should be displayed.
 
-  Scenario: EPD total products price check.
-    When user is on products page.
-    Then all the EPD product prices should be displayed.
+#  Below list of scenarios are for Ratings section
+  Scenario: Rating check.
+    When user is on products page
+    And ratings heading should be displayed
+    And all ratings under ratings section should be displayed
 
 #    Below list of scenarios are for All products section
   Scenario: All products section.
-    When user is on products page.
-    Then all products main heading element should be displayed.
-    And all the products under all products section should be displayed.
+    When user is on products page
+    Then all products main heading element should be displayed
+    And all products under All products section should be displayed
 
-  Scenario: All products section, all product images check
-    When user is on products page.
-    Then all product images should be displayed under all products section.
 
-  Scenario: All products section, all product titles check
-    When user is on products page.
-    Then all product titles should be displayed under all products section.
+  Scenario: Search for any specific product using title of the product
+    When user is on products page
+    And search for any specific product with title
+    Then the product with the searched title should be present in the list of items.
 
-  Scenario: All products section, all product brands check
-    When user is on products page.
-    Then all product brands should be displayed under all products section.
 
-  Scenario: All products section, all product prices check
-    When user is on products page.
-    Then all product prices should be displayed under all products section.
-
+  Scenario: Search for a specific rating products.
+    When user is on products page
+    And clicks on any specific rating under category list
+    Then all the products with specified rating should be displayed.
