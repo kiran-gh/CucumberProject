@@ -33,7 +33,7 @@ public class LoginPage {
         this.driver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(35));
     }
-    //**********    LOGIN PAGE CONSTRUCTOR STARTS HERE    **********
+    //**********    LOGIN PAGE CONSTRUCTOR ENDS HERE    **********
 
     //**********    LOGIN PAGE METHODS / FUNCTIONS STARTS HERE    **********
 
@@ -55,26 +55,6 @@ public class LoginPage {
     public void clickOnLoginButton() {
         clickOnElement(lpLoginButtonEle);
     }
-//    // lpInputtingInvalidUsername method is used to enter invalid username and password inside username input field and password input field
-//    public void lpInputtingInvalidUsername(String invalidUserName, String password) {
-//        inputData(lpUserNameInputEle,invalidUserName);
-//        inputData(lpPasswordInputEle,password);
-//    }
-//    // lpInputtingInvalidPassword method is used to enter valid username and invalid password inside username input field and password input field
-//    public void lpInputtingInvalidPassword(String userName, String invalidPassword) {
-//        inputData(lpUserNameInputEle,userName);
-//        inputData(lpPasswordInputEle,invalidPassword);
-//    }
-//    // lpEmptyCredentials method is used to enter empty username and empty password inside username input field and password input field
-//    public void lpEmptyCredentials(String emptyUserName, String emptyPassword) {
-//        inputData(lpUserNameInputEle,emptyUserName);
-//        inputData(lpPasswordInputEle,emptyPassword);
-//    }
-//    // lpInvalidCredentials method is used to enter invalid username and invalid password inside username input field and password input field
-//    public void lpInvalidCredentials(String invalidUserName, String invalidPassword) {
-//        inputData(lpUserNameInputEle,invalidUserName);
-//        inputData(lpPasswordInputEle,invalidPassword);
-//    }
     // lpInvalidError method catches error method and return the error method
     public boolean lpErrorMessage() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(lpErrorTextEle));

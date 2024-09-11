@@ -1,8 +1,7 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -31,7 +30,8 @@ public class ProductsPage {
     By categoryHeadingEle = By.className("category-heading");
     By ppTotalListOfCategoriesEle = By.className("category-item");
     By categoryClearButtonEle = By.className("clear-filters-btn");
-    By searchButtonEle = By.className("search-input");
+    By searchButtonEle = By.xpath("//input[@type=\"search\"]");
+    By searchForAProductEle = By.xpath("//h1[normalize-space()=\"Chronograph black Watch\"]");
     By searchIconEle = By.className("search-icon");
 
 
@@ -48,46 +48,54 @@ public class ProductsPage {
     By ppAPSectionTotalListOfProductsEle = By.xpath("(//div[@class=\"product-sections\"]//ul)[4]//li");
 
     By titleOfProduct = By.xpath("//h1[@class=\"title\"]");
+    By ppAddToCartButtonEle = By.xpath("//button[normalize-space()=\"ADD TO CART\"]");
+    By ppQuantityIncreaseButtonEle = By.xpath("//button[@testid=\"plus\"]");
+    By ppCartCountBadgeEle =By.className("cart-count-badge");
+
     //    ********** THE FOLLOWING IS THE CONSTRUCTOR FOR PRODUCTS PAGE **********
     public ProductsPage(WebDriver driver) throws IOException {
         prop.load(fis);
         this.driver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(35));
     }
+
     //**********    PRODUCTS PAGE METHODS / FUNCTIONS STARTS HERE    **********
-    public String ppTitle(){
-        wait.until(ExpectedConditions.urlToBe(prop.getProperty("productsPageUrl")));
-        return driver.getTitle();
+    public String ppUrlCheck(){
+       return driver.getCurrentUrl();
     }
 
     public boolean ppEPDHeading(){
         wait.until(ExpectedConditions.visibilityOfElementLocated(ppEPDHeadingEle));
         return driver.findElement(ppEPDHeadingEle).isDisplayed();
     }
+
     public boolean ppEPDTotalListOfItemsDisplayStatus(){
         List<WebElement> epdTotalItems = driver.findElements(ppEPDTotalListOfProducts);
         return epdTotalItems.stream().allMatch(WebElement::isDisplayed);
     }
 
-
-    public void inputDataInToSearchButton(){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(categoryClearButtonEle));
-        clickOnElement(categoryClearButtonEle);
-        inputData(searchButtonEle, prop.getProperty("searchForAProduct"));
-        clickOnElement(searchIconEle);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(ppAPSectionTotalListOfProductsEle));
+    public void searchForAProduct(String string){
+         driver.findElement(searchButtonEle).sendKeys(string);
+         driver.findElement(searchButtonEle).sendKeys(Keys.ENTER);
+         wait.until(ExpectedConditions.visibilityOfElementLocated(ppAPSectionTotalListOfProductsEle));
     }
+    public boolean checkForASelectedProduct(){
+        List<WebElement> productLists = driver.findElements(ppAPSectionTotalListOfProductsEle);
+        return productLists.stream().anyMatch(title -> title.getText().contains(prop.getProperty("searchForAProduct")));
+    }
+
+    public void addProductToCart(){
+        clickOnElement(ppAddToCartButtonEle);
+    }
+    public int cartCountBadge(){
+        return Integer.parseInt(driver.findElement(ppCartCountBadgeEle).getText());
+    }
+
     public boolean categoryHeading(){
         wait.until(ExpectedConditions.visibilityOfElementLocated(categoryHeadingEle));
         return driver.findElement(categoryHeadingEle).isDisplayed();
     }
 
-    public boolean checkForASpecificProductStatus(){
-        inputDataInToSearchButton();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(ppAPSectionTotalListOfProductsEle));
-        return driver.findElements(titleOfProduct).stream()
-                .anyMatch(title -> title.getText().equals(prop.getProperty("searchForAProduct")));
-    }
     public boolean ppTotalListOfCategoriesDisplayStatus(){
         List<WebElement> categoriesCount = driver.findElements(ppTotalListOfCategoriesEle);
         return categoriesCount.stream().allMatch(WebElement::isDisplayed);
@@ -120,6 +128,7 @@ public class ProductsPage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(apHeadingEle));
         return driver.findElement(apHeadingEle).isDisplayed();
     }
+
     public boolean apTotalListOfProductsDisplayStatus() {
         List<WebElement> apSectionTotalProducts = driver.findElements(ppAPSectionTotalListOfProductsEle);
         return apSectionTotalProducts.stream().allMatch(WebElement::isDisplayed);

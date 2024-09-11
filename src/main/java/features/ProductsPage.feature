@@ -1,4 +1,4 @@
-@products
+@productsPage
 Feature: Products page
 
 #  Below list of scenarios are for Exclusive prime deals products section
@@ -14,7 +14,6 @@ Feature: Products page
     Then category heading should be displayed
     And all categories under category section should be displayed.
 
-
 #  Below list of scenarios are for Ratings section
   Scenario: Rating check.
     When user is on products page
@@ -27,12 +26,14 @@ Feature: Products page
     Then all products main heading element should be displayed
     And all products under All products section should be displayed
 
-
-  Scenario: Search for any specific product using title of the product
+  Scenario Outline: Search for any specific product using title of the product
     When user is on products page
-    And search for any specific product with title
+    And searches for a specific product with "<title>"
     Then the product with the searched title should be present in the list of items.
 
+  Examples:
+    | title |
+    | Chronograph black Watch |
 
   Scenario: Search for a specific rating products.
     When user is on products page

@@ -1,4 +1,4 @@
-@homepage
+@homePage
 Feature: Home page feature
 
   Scenario: Successful user navigated to home page.

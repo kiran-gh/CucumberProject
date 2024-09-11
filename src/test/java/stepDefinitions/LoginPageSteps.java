@@ -37,14 +37,14 @@ public class LoginPageSteps {
     public void user_gets_the_title_of_the_login_page() {
         Assert.assertTrue(driver.getTitle().contains(loginPage.getLoginPageTitle()));
     }
-    @When("user enters {string} in username input filed and {string} in password input field")
-    public void user_enters_in_username_input_filed_and_in_password_input_field(String string, String string2, DataTable dataTable) {
-        List<Map<String,String>> listData =  dataTable.asMaps(String.class,String.class);
-        for(Map<String,String> e : listData){
-            loginPage.enterUserName(e.get("userName"));
-            loginPage.enterPassword(e.get("password"));
-        }
-    }
+//    @When("user enters {string} in username input filed and {string} in password input field")
+//    public void user_enters_in_username_input_filed_and_in_password_input_field(DataTable dataTable) {
+//        List<Map<String,String>> listData =  dataTable.asMaps(String.class,String.class);
+//        for(Map<String,String> e : listData){
+//            loginPage.enterUserName(e.get("userName"));
+//            loginPage.enterPassword(e.get("password"));
+//        }
+//    }
     @When("user clicks on Login button")
     public void user_clicks_on_login_button() {
         loginPage.clickOnLoginButton();

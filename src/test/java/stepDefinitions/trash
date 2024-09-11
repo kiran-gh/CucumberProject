@@ -1,0 +1,20 @@
+ @Test(priority = 1)
+    public void setup(){
+        System.setProperty("webdriver.chrome.driver", "src/main/java/webDriverFactory/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://qahndlwindows.ccbp.tech/");
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.findElement(By.id("newWindow")).click();
+        String mainWindow = driver.getWindowHandle();
+        Set<String> subWindows =  driver.getWindowHandles();
+        for(String subWindow : subWindows){
+            if((!(subWindow).equals(mainWindow))){
+                driver.switchTo().window(subWindow);
+                driver.findElement(By.name("q")).sendKeys("Vogeti satya kiran");
+                driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
+                driver.close();
+            }
+        }
+    }
