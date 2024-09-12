@@ -6,7 +6,7 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(
         features = {"src/main/java/features"},
         glue = {"stepDefinitions", "hooks"},
-//        tags = "@cartPage",
+        tags = "@productsPage",
         plugin = {"pretty",
                 "json:target/MyReports/report.json",
                 "json:target/MyReports/report.xml"},

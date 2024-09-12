@@ -4,7 +4,6 @@ Feature: Login page feature
   Background:
     Given user is on the login page
 
-
   Scenario: Login page title
     Then user gets the title of the login page
 
